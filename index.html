@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Contacto</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 20px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  input, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font: inherit; }
+  .error { color: #c0392b; font-size: 0.85rem; margin-top: 2px; }
+  button { margin-top: 16px; padding: 10px 18px; background: #2c3e50; color: white; border: none; border-radius: 6px; cursor: pointer; }
+  #mensaje-ok { color: #2e7d32; font-weight: 600; margin-top: 12px; }
+</style>
+</head>
+<body>
+  <h1>Contactanos</h1>
+  <form id="form-contacto" novalidate>
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre">
+    <div class="error" id="error-nombre"></div>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email">
+    <div class="error" id="error-email"></div>
+
+    <label for="mensaje">Mensaje</label>
+    <textarea id="mensaje" name="mensaje" rows="4"></textarea>
+    <div class="error" id="error-mensaje"></div>
+
+    <button type="submit">Enviar</button>
+    <p id="mensaje-ok" hidden>¡Gracias! Tu mensaje quedó listo para enviarse.</p>
+  </form>
+  <script src="script.js"></script>
+</body>
+</html>

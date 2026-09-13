@@ -17,16 +17,16 @@
   <h1>Contactanos</h1>
   <form id="form-contacto" novalidate>
     <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" name="nombre">
-    <div class="error" id="error-nombre"></div>
+    <input type="text" id="nombre" name="nombre" aria-describedby="error-nombre">
+    <div class="error" id="error-nombre" role="alert"></div>
 
     <label for="email">Email</label>
-    <input type="email" id="email" name="email">
-    <div class="error" id="error-email"></div>
+    <input type="email" id="email" name="email" aria-describedby="error-email">
+    <div class="error" id="error-email" role="alert"></div>
 
     <label for="mensaje">Mensaje</label>
-    <textarea id="mensaje" name="mensaje" rows="4"></textarea>
-    <div class="error" id="error-mensaje"></div>
+    <textarea id="mensaje" name="mensaje" rows="4" aria-describedby="error-mensaje"></textarea>
+    <div class="error" id="error-mensaje" role="alert"></div>
 
     <button type="submit">Enviar</button>
     <p id="mensaje-ok" hidden>¡Gracias! Tu mensaje quedó listo para enviarse.</p>

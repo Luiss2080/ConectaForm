@@ -7,6 +7,7 @@ function validarEmail(valor) {
 
 function mostrarError(campo, texto) {
   document.getElementById(`error-${campo}`).textContent = texto;
+  document.getElementById(campo).setAttribute('aria-invalid', String(Boolean(texto)));
 }
 
 form.addEventListener('submit', (e) => {

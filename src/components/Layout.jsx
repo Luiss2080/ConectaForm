@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Info, Menu } from 'lucide-react';
+import { Moon, Sun, Info, Menu, LayoutDashboard, Home } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 
 export default function Layout({ children }) {

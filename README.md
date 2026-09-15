@@ -1,18 +1,16 @@
-# 📋 Plantilla de Formulario de Contacto
+# React + Vite
 
-Formulario de contacto reutilizable con validación en el cliente (nombre, email,
-mensaje) — HTML/CSS/JS puro, sin dependencias, listo para pegar en cualquier
-landing page.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-No envía emails por sí solo: conectalo a Formspree, EmailJS o tu propio backend
-en el punto marcado en `script.js`.
+Currently, two official plugins are available:
 
-Gratis para usar, modificar y regalar.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Usar
+## React Compiler
 
-Abrí `index.html`, o copiá los 3 archivos a tu propio sitio.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Licencia
+## Expanding the Oxlint configuration
 
-MIT — usalo para lo que quieras.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.

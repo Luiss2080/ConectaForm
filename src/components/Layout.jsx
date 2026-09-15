@@ -19,8 +19,14 @@ export default function Layout({ children }) {
     <div className="layout-wrapper">
       <nav className="navbar">
         <div className="nav-brand">
-          <Menu size={24} className="icon-btn" style={{ padding: 0 }} />
-          <span>LeadGen Pro</span>
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Menu size={24} className="icon-btn" style={{ padding: 0 }} />
+            <span>LeadGen Pro</span>
+          </Link>
+          <div style={{ marginLeft: '1rem', display: 'flex', gap: '0.5rem' }}>
+            <Link to="/" className="icon-btn" title="Formulario"><Home size={20} /></Link>
+            <Link to="/dashboard" className="icon-btn" title="Dashboard"><LayoutDashboard size={20} /></Link>
+          </div>
         </div>
         <div className="nav-actions">
           <button className="icon-btn" onClick={toggleTheme} aria-label="Cambiar tema" title="Cambiar tema">

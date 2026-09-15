@@ -1,16 +1,40 @@
-# React + Vite
+# LeadGen Portal Pro (Formulario de Contacto Moderno)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Este proyecto es una aplicación web SPA (Single Page Application) desarrollada en React y Vite que sirve como un portal avanzado de generación de leads y contacto.
 
-Currently, two official plugins are available:
+## Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Arquitectura Basada en Componentes:** Uso de `Layout`, `Modal` y formularios gestionados con hooks (`useState`).
+- **Diseño Premium:** Interfaz basada en "Glassmorphism", totalmente responsiva, con paleta de colores moderna y soporte para **Modo Oscuro / Modo Claro**.
+- **Animaciones CSS Avanzadas:** Micro-interacciones en botones (Ripple effect), toggles interactivos, modales con transiciones de escala y opacidad, e inputs con focus dinámico.
+- **Lógica de Formulario Dinámica:** Los campos cambian dependiendo del tipo de consulta seleccionada. Validación exhaustiva en tiempo real.
+- **Iconografía:** Integración completa de `lucide-react` para mejorar la accesibilidad visual.
 
-## React Compiler
+## Requisitos y Configuración
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Necesitas tener [Node.js](https://nodejs.org/) instalado en tu sistema.
 
-## Expanding the Oxlint configuration
+1. **Instalar dependencias:**
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+2. **Ejecutar en entorno de desarrollo:**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+   Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
+
+3. **Compilar para producción:**
+   \`\`\`bash
+   npm run build
+   \`\`\`
+   Esto generará los archivos minificados en la carpeta `dist`.
+
+## Documentación Adicional
+
+- Revisa el [Manual de Uso](./MANUAL_DE_USO.md) para aprender a interactuar con el portal como usuario y como administrador.
+- Lee el plan de desarrollo (SDD) original y los detalles de arquitectura en la documentación del repositorio.
+
+---
+*Desarrollado bajo los estándares de SDD y arquitectura moderna de interfaces.*

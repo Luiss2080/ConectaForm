@@ -1,122 +1,203 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [formType, setFormType] = useState('support');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+    priority: 'low'
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio';
+    if (!validateEmail(formData.email)) newErrors.email = 'Ingresa un email válido';
+    if (formData.message.trim().length < 10) newErrors.message = 'El mensaje debe tener al menos 10 caracteres';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    setFormData({ name: '', email: '', message: '', priority: 'low' });
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="app-container">
+        <div className="glass-panel">
+          <div className="success-message">
+            <div className="success-icon">
+              <CheckCircle2 size={64} />
+            </div>
+            <h2 className="success-title">¡Mensaje Enviado!</h2>
+            <p className="success-text">Hemos recibido tu consulta de {formType === 'sales' ? 'ventas' : formType === 'support' ? 'soporte técnico' : 'sugerencias'}. Nos pondremos en contacto contigo pronto.</p>
+            <button 
+              className="submit-btn" 
+              onClick={() => setIsSuccess(false)}
+            >
+              Enviar otro mensaje
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="app-container">
+      <div className="glass-panel">
+        <div className="header">
+          <h1 className="title">Portal de Contacto</h1>
+          <p className="subtitle">¿En qué podemos ayudarte hoy?</p>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="type-selector">
+          <button 
+            type="button"
+            className={`type-btn ${formType === 'support' ? 'active' : ''}`}
+            onClick={() => setFormType('support')}
+          >
+            Soporte
+          </button>
+          <button 
+            type="button"
+            className={`type-btn ${formType === 'sales' ? 'active' : ''}`}
+            onClick={() => setFormType('sales')}
+          >
+            Ventas
+          </button>
+          <button 
+            type="button"
+            className={`type-btn ${formType === 'feedback' ? 'active' : ''}`}
+            onClick={() => setFormType('feedback')}
+          >
+            Sugerencias
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">Nombre Completo</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className={`form-control ${errors.name ? 'error' : ''}`}
+              placeholder="Juan Pérez"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {errors.name && (
+              <div className="error-message">
+                <AlertCircle size={14} />
+                <span>{errors.name}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">Correo Electrónico</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className={`form-control ${errors.email ? 'error' : ''}`}
+              placeholder="juan@ejemplo.com"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && (
+              <div className="error-message">
+                <AlertCircle size={14} />
+                <span>{errors.email}</span>
+              </div>
+            )}
+          </div>
+
+          {formType === 'support' && (
+            <div className="form-group">
+              <label htmlFor="priority" className="form-label">Prioridad del Problema</label>
+              <select 
+                id="priority"
+                name="priority" 
+                className="form-control"
+                value={formData.priority}
+                onChange={handleChange}
+              >
+                <option value="low">Baja - Consulta general</option>
+                <option value="medium">Media - Problema parcial</option>
+                <option value="high">Alta - Sistema caído</option>
+              </select>
+            </div>
+          )}
+
+          <div className="form-group">
+            <label htmlFor="message" className="form-label">Mensaje</label>
+            <textarea
+              id="message"
+              name="message"
+              className={`form-control ${errors.message ? 'error' : ''}`}
+              placeholder="Describe tu consulta aquí..."
+              value={formData.message}
+              onChange={handleChange}
+            />
+            {errors.message && (
+              <div className="error-message">
+                <AlertCircle size={14} />
+                <span>{errors.message}</span>
+              </div>
+            )}
+          </div>
+
+          <button 
+            type="submit" 
+            className="submit-btn"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="spinner" size={20} />
+                Enviando...
+              </>
+            ) : (
+              <>
+                <Send size={20} />
+                Enviar Mensaje
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
-
-export default App

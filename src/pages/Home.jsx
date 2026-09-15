@@ -4,6 +4,8 @@ import { api } from '../services/mockApi';
 import Modal from '../components/Modal';
 import Toast from '../components/Toast';
 
+import { validateForm } from '../utils/validation';
+
 export default function Home() {
   const [formType, setFormType] = useState('support');
   const [formData, setFormData] = useState({
@@ -17,11 +19,7 @@ export default function Home() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
-  const [toast, setToast] = useState(null); // { message, type }
-
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const [toast, setToast] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -34,21 +32,14 @@ export default function Home() {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio';
-    if (!validateEmail(formData.email)) newErrors.email = 'Ingresa un email válido';
-    if (formData.message.trim().length < 10) newErrors.message = 'El mensaje debe tener al menos 10 caracteres';
-    if (!formData.terms) newErrors.terms = 'Debes aceptar los términos y condiciones';
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    const validation = validateForm(formData);
+    if (!validation.isValid) {
+      setErrors(validation.errors);
+      return;
+    }
 
     setIsSubmitting(true);
     

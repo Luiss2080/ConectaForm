@@ -885,3 +885,70 @@ input:checked + .slider:before {
   background: var(--surface-border);
 }
 
+/* ==========================================================================
+   Responsive breakpoints
+   The layout had no media queries at all: on narrow viewports the public
+   wizard's padding ate most of the available width, and the admin sidebar
+   (260px fixed) plus its 2rem topbar/content padding left very little room
+   for the dashboard/analytics/settings content on a phone-sized screen.
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-brand span {
+    display: none;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .glass-panel {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  /* Admin: always render the sidebar in its icon-only "closed" state on
+     small screens, regardless of the open/closed toggle state, so the
+     content area keeps a usable width. */
+  .admin-layout {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .sidebar.open,
+  .sidebar.closed {
+    width: 64px;
+  }
+
+  .sidebar .brand-name,
+  .sidebar .nav-item span {
+    display: none;
+  }
+
+  .admin-topbar {
+    padding: 0 1rem;
+  }
+
+  .admin-content-area {
+    padding: 1rem;
+  }
+
+  .metric-card {
+    padding: 1rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.65rem;
+    font-size: 0.85rem;
+  }
+}
+

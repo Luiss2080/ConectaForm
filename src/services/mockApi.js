@@ -1,7 +1,7 @@
 // Simulated backend service
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-const STORAGE_KEY = 'leadgen_data';
+const STORAGE_KEY = 'conectaform_data';
 
 const getInitialData = () => {
   const data = localStorage.getItem(STORAGE_KEY);

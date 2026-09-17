@@ -10,7 +10,11 @@ export default function Toast({ message, type = 'success', onClose, duration = 3
   }, [duration, onClose]);
 
   return (
-    <div className={`toast-container toast-${type}`}>
+    <div
+      className={`toast-container toast-${type}`}
+      role={type === 'error' ? 'alert' : 'status'}
+      aria-live={type === 'error' ? 'assertive' : 'polite'}
+    >
       <div className="toast-icon">
         {type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
       </div>

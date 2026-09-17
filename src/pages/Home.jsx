@@ -3,7 +3,7 @@ import { Send, AlertCircle, Loader2, User, Mail, MessageSquare, Briefcase, Heart
 import { api } from '../services/mockApi';
 import Modal from '../components/Modal';
 import Toast from '../components/Toast';
-import { validateForm } from '../utils/validation';
+import { validateForm, MAX_MESSAGE_LENGTH } from '../utils/validation';
 
 export default function Home() {
   const [step, setStep] = useState(1);
@@ -223,8 +223,13 @@ export default function Home() {
                     placeholder="Describe tu consulta aquí..."
                     value={formData.message}
                     onChange={handleChange}
+                    maxLength={MAX_MESSAGE_LENGTH}
+                    aria-describedby="message-hint"
                     style={{ paddingLeft: '3rem' }}
                   />
+                </div>
+                <div id="message-hint" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+                  {formData.message.length}/{MAX_MESSAGE_LENGTH}
                 </div>
                 {errors.message && (
                   <div className="error-message"><AlertCircle size={14} /><span>{errors.message}</span></div>

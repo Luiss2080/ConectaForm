@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Send, AlertCircle, Loader2, User, Mail, MessageSquare, Briefcase, Heart, Headset, ChevronRight, ChevronLeft } from 'lucide-react';
 import { api } from '../services/mockApi';
 import Modal from '../components/Modal';
@@ -20,6 +20,14 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
+  const stepHeadingRef = useRef(null);
+
+  // Move focus to the new step's heading whenever the step changes, so
+  // keyboard/screen-reader users get feedback that the wizard advanced
+  // instead of focus silently staying on the now-hidden "Siguiente" button.
+  useEffect(() => {
+    stepHeadingRef.current?.focus();
+  }, [step]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -94,17 +102,32 @@ export default function Home() {
         </div>
 
         {/* Wizard Progress */}
-        <div className="wizard-progress">
-          <div className={`step-indicator ${step >= 1 ? (step > 1 ? 'completed' : 'active') : ''}`}>1</div>
-          <div className={`step-indicator ${step >= 2 ? (step > 2 ? 'completed' : 'active') : ''}`}>2</div>
-          <div className={`step-indicator ${step >= 3 ? 'active' : ''}`}>3</div>
+        <div className="wizard-progress" role="list" aria-label="Progreso del formulario">
+          <div
+            role="listitem"
+            aria-current={step === 1 ? 'step' : undefined}
+            aria-label={`Paso 1 de 3${step > 1 ? ' (completado)' : ''}`}
+            className={`step-indicator ${step >= 1 ? (step > 1 ? 'completed' : 'active') : ''}`}
+          >1</div>
+          <div
+            role="listitem"
+            aria-current={step === 2 ? 'step' : undefined}
+            aria-label={`Paso 2 de 3${step > 2 ? ' (completado)' : ''}`}
+            className={`step-indicator ${step >= 2 ? (step > 2 ? 'completed' : 'active') : ''}`}
+          >2</div>
+          <div
+            role="listitem"
+            aria-current={step === 3 ? 'step' : undefined}
+            aria-label="Paso 3 de 3"
+            className={`step-indicator ${step >= 3 ? 'active' : ''}`}
+          >3</div>
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
           {/* STEP 1: Identidad */}
           {step === 1 && (
             <div className="wizard-step-content">
-              <h3 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>¿Quién eres?</h3>
+              <h3 ref={stepHeadingRef} tabIndex={-1} style={{ marginBottom: '1.5rem', textAlign: 'center' }}>¿Quién eres?</h3>
               <div className="form-group">
                 <label htmlFor="name" className="form-label">Nombre Completo</label>
                 <div className="input-wrapper">
@@ -117,10 +140,12 @@ export default function Home() {
                     placeholder="Juan Pérez"
                     value={formData.name}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? 'name-error' : undefined}
                   />
                 </div>
                 {errors.name && (
-                  <div className="error-message"><AlertCircle size={14} /><span>{errors.name}</span></div>
+                  <div className="error-message" id="name-error" role="alert"><AlertCircle size={14} /><span>{errors.name}</span></div>
                 )}
               </div>
 
@@ -136,10 +161,12 @@ export default function Home() {
                     placeholder="juan@ejemplo.com"
                     value={formData.email}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? 'email-error' : undefined}
                   />
                 </div>
                 {errors.email && (
-                  <div className="error-message"><AlertCircle size={14} /><span>{errors.email}</span></div>
+                  <div className="error-message" id="email-error" role="alert"><AlertCircle size={14} /><span>{errors.email}</span></div>
                 )}
               </div>
             </div>
@@ -148,7 +175,7 @@ export default function Home() {
           {/* STEP 2: Motivo */}
           {step === 2 && (
             <div className="wizard-step-content">
-              <h3 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>¿Cuál es el motivo?</h3>
+              <h3 ref={stepHeadingRef} tabIndex={-1} style={{ marginBottom: '1.5rem', textAlign: 'center' }}>¿Cuál es el motivo?</h3>
               <div className="type-selector" style={{ flexDirection: 'column' }}>
                 <button 
                   type="button"
@@ -193,7 +220,7 @@ export default function Home() {
           {/* STEP 3: Mensaje y Confirmación */}
           {step === 3 && (
             <div className="wizard-step-content">
-              <h3 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Detalles</h3>
+              <h3 ref={stepHeadingRef} tabIndex={-1} style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Detalles</h3>
               {formType === 'support' && (
                 <div className="form-group">
                   <label htmlFor="priority" className="form-label">Prioridad del Problema</label>
@@ -223,11 +250,13 @@ export default function Home() {
                     placeholder="Describe tu consulta aquí..."
                     value={formData.message}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? 'message-error' : undefined}
                     style={{ paddingLeft: '3rem' }}
                   />
                 </div>
                 {errors.message && (
-                  <div className="error-message"><AlertCircle size={14} /><span>{errors.message}</span></div>
+                  <div className="error-message" id="message-error" role="alert"><AlertCircle size={14} /><span>{errors.message}</span></div>
                 )}
               </div>
 
@@ -254,7 +283,7 @@ export default function Home() {
                 </span>
               </label>
               {errors.terms && (
-                <div className="error-message" style={{ marginTop: '-1rem', marginBottom: '1.5rem' }}><AlertCircle size={14} /><span>{errors.terms}</span></div>
+                <div className="error-message" role="alert" style={{ marginTop: '-1rem', marginBottom: '1.5rem' }}><AlertCircle size={14} /><span>{errors.terms}</span></div>
               )}
             </div>
           )}

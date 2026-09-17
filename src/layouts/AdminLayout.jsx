@@ -21,7 +21,7 @@ export default function AdminLayout({ children }) {
       {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
-          {isSidebarOpen && <span className="brand-name">LeadGen Pro</span>}
+          {isSidebarOpen && <span className="brand-name">ConectaForm</span>}
           <button className="icon-btn" onClick={toggleSidebar}>
             <Menu size={20} />
           </button>
@@ -78,9 +78,9 @@ export default function AdminLayout({ children }) {
         <div style={{ textAlign: 'center', padding: '1rem 0' }}>
           <UserCircle size={64} style={{ color: 'var(--accent-color)', marginBottom: '1rem' }} />
           <h3>Admin Principal</h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>admin@leadgen.pro</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>admin@conectaform.demo</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem' }}>
-            <span className="badge badge-resolved">Nivel: Supremo</span>
+            <span className="badge badge-resolved">Rol: Administrador</span>
           </div>
         </div>
       </Modal>

@@ -21,7 +21,7 @@ export default function Layout({ children }) {
         <div className="nav-brand">
           <Link to="/" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Menu size={24} className="icon-btn" style={{ padding: 0 }} />
-            <span>LeadGen Pro</span>
+            <span>ConectaForm</span>
           </Link>
           <div style={{ marginLeft: '1rem', display: 'flex', gap: '0.5rem' }}>
             <Link to="/" className="icon-btn" title="Formulario"><Home size={20} /></Link>
@@ -48,12 +48,12 @@ export default function Layout({ children }) {
         title="Información del Sistema"
       >
         <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-          Este es un portal avanzado de soporte y generación de leads. Cuenta con un diseño glassmorphism responsivo, 
-          modo oscuro/claro, validación estricta y elementos interactivos fluidos.
+          ConectaForm es un formulario de contacto tipo wizard (3 pasos) con un panel de
+          administración de demostración para revisar las consultas recibidas. Incluye
+          modo oscuro/claro, validación en cliente y un diseño glassmorphism responsivo.
         </p>
         <p style={{ color: 'var(--text-secondary)' }}>
-          Versión: 2.0.0 Pro<br/>
-          Tecnología: React + Vite + Vanilla CSS
+          Tecnología: React + Vite + CSS
         </p>
       </Modal>
     </div>

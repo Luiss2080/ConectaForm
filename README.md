@@ -1,134 +1,130 @@
 <div align="center">
-
-# 📬 ConectaForm
-
-**Un formulario de contacto tipo wizard, con un panel de administración de demostración para revisar lo que llega.**
-
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-729B1B?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
-
+  <img src="docs/assets/logo.svg" width="96" alt="Logo de ConectaForm" />
+  <h1>ConectaForm</h1>
+  <p><b>Formulario de contacto en 3 pasos con validación real y un panel de administración de demostración para revisar los mensajes.</b></p>
+  <img src="https://img.shields.io/badge/estado-demo_frontend-orange?style=for-the-badge" alt="Estado: demo frontend" />
+  <img src="https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 19" />
+  <img src="https://img.shields.io/badge/Vite-8-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite 8" />
+  <img src="https://img.shields.io/badge/tests-31_pasan-brightgreen?style=for-the-badge" alt="31 tests" />
+  <a href="https://github.com/Luiss2080/ConectaForm/actions/workflows/ci.yml"><img src="https://github.com/Luiss2080/ConectaForm/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <p>
+    <a href="#-inicio-rápido">Inicio rápido</a> ·
+    <a href="#-características">Características</a> ·
+    <a href="#-arquitectura">Arquitectura</a> ·
+    <a href="#-pruebas">Pruebas</a> ·
+    <a href="#-lo-que-todavía-no-existe">Limitaciones</a>
+  </p>
 </div>
 
-ConectaForm es una SPA de React que resuelve un caso concreto: capturar un
-mensaje de contacto en 3 pasos con validación real, y darle a quien
-administra el sitio un lugar donde ver esos mensajes sin tener que montar un
-backend. **No es una plantilla vanilla JS/HTML/CSS para copiar y pegar en
-una landing existente** — es una aplicación completa de React + Vite con
-enrutamiento propio (`react-router-dom`), pensada para usarse tal cual o
-como base para conectar un backend real.
+ConectaForm es una SPA de React + Vite que captura un mensaje de contacto en
+3 pasos y le da a quien administra un lugar donde verlos, marcarlos como
+resueltos y ver métricas. **No tiene backend**: los datos viven en el
+`localStorage` del navegador (`src/services/mockApi.js`), así que sirve como
+demo o como base para conectar una API real, no como formulario de producción.
+
+## 🎬 Vista rápida
+
+| Formulario público (`/`) | Dashboard (`/admin/dashboard`) | Analytics (`/admin/analytics`) |
+|---|---|---|
+| <img src="docs/screenshots/formulario.png" alt="Formulario de contacto en modo oscuro" /> | <img src="docs/screenshots/dashboard.png" alt="Dashboard de leads con tabla de consultas de ejemplo" /> | <img src="docs/screenshots/analytics.png" alt="Gráficos de consultas por tipo y pendientes contra resueltas" /> |
+
+> Las consultas de la tabla son datos ficticios que la propia app siembra la primera vez que se abre.
 
 ## ✨ Características
 
-### Formulario público (`/`)
-- **Wizard de 3 pasos** (identidad → motivo de contacto → mensaje y
-  confirmación) con barra de progreso. El paso 1 bloquea avanzar si el
-  nombre está vacío o el email no tiene formato válido; el paso final
-  vuelve a validar todo (incluyendo el checkbox de Términos y Condiciones)
-  antes de permitir el envío — no es posible enviar el formulario saltando
-  la validación.
-- **Validación en cliente** (`src/utils/validation.js`): nombre obligatorio,
-  email con formato válido, mensaje con un mínimo de 10 caracteres. Los
-  errores se muestran junto a cada campo, no en un cartel genérico.
-- **Modal reutilizable** (`src/components/Modal.jsx`) para los Términos y
-  Condiciones y la información del sistema, con cierre al hacer clic fuera
-  o con la tecla Escape.
-- **Notificaciones toast** de éxito/error que se cierran solas tras el envío.
-- **Modo oscuro/claro** con un botón de alternancia (nota: es estado de
-  React, no se guarda en `localStorage`, así que vuelve a modo oscuro al
-  recargar la página o al pasar del sitio público al panel de admin).
+| Característica | Detalle |
+|---|---|
+| Wizard de 3 pasos | Identidad → motivo de contacto → mensaje y confirmación, con barra de progreso. El paso 1 no deja avanzar con nombre vacío o email inválido; el envío final revalida todo. |
+| Validación en cliente | `src/utils/validation.js`: nombre obligatorio, email con formato, mensaje de 10 a 500 caracteres y checkbox de términos obligatorio. Errores junto a cada campo. |
+| Modal reutilizable | `Modal.jsx` para términos e información; cierra con clic fuera o `Escape` y atrapa el foco con Tab. |
+| Toasts | Avisos de éxito/error que se cierran solos. |
+| Tema claro/oscuro | Botón de alternancia; es estado de React, **no se persiste** (vuelve a oscuro al recargar). |
+| Dashboard de leads | Tarjetas de totales y tabla de consultas con acciones para resolver o eliminar. |
+| Analytics | Gráfico de barras (consultas por tipo) y de dona (pendientes vs. resueltas) con `recharts`. |
+| Settings | Panel de ejemplo con un switch de notificaciones que no tiene efecto real. |
 
-### Panel de administración de demostración (`/admin/*`)
-- **Dashboard**: tabla de las consultas recibidas (nombre, tipo, mensaje,
-  fecha, estado), con acciones para marcarlas como resueltas o eliminarlas.
-- **Analytics**: un gráfico de barras (consultas por tipo) y un gráfico de
-  dona (pendientes vs. resueltas) hechos con `recharts`.
-- **Settings**: un panel de ejemplo con un switch de notificaciones (no
-  persiste ni tiene efecto real, es solo de interfaz).
-- **Importante — es una demo, no un backend real:** `/admin/*` no tiene
-  ninguna autenticación; cualquiera que abra la URL puede verlo. Todos los
-  datos se generan y se guardan en el `localStorage` del propio navegador
-  vía `src/services/mockApi.js` (con un `setTimeout` simulando latencia de
-  red), así que no hay persistencia real ni se comparte entre navegadores o
-  dispositivos.
+## 🏗️ Arquitectura
 
-## 🚀 Cómo usar
-
-1. Un visitante completa el wizard de contacto en `/` y lo envía.
-2. El mensaje queda guardado en el `localStorage` del navegador (simulando
-   una llamada a una API).
-3. Quien administra puede entrar a `/admin/dashboard` en ese mismo
-   navegador para ver el mensaje, marcarlo como resuelto o eliminarlo, y
-   revisar las métricas agregadas en `/admin/analytics`.
-
-## 🛠️ Instalación y uso local
-
-Requiere Node.js (probado con Node 22 y 24).
-
-```bash
-# Instalar dependencias
-npm install
-
-# Servidor de desarrollo (Vite, con HMR) → http://localhost:5173
-npm run dev
-
-# Ejecutar la suite de pruebas (Vitest)
-npm test
-
-# Build de producción → carpeta /dist
-npm run build
-
-# Previsualizar el build de producción localmente
-npm run preview
-
-# Linter (oxlint)
-npm run lint
+```mermaid
+flowchart LR
+  V["Visitante"] --> H["Home.jsx (wizard)"]
+  H --> VAL["utils/validation.js"]
+  H --> API["services/mockApi.js"]
+  API <--> LS[("localStorage: conectaform_data")]
+  A["Administrador"] --> AL["AdminLayout.jsx"]
+  AL --> D["Dashboard.jsx"]
+  AL --> AN["Analytics.jsx"]
+  AL --> S["Settings.jsx"]
+  D --> API
+  AN --> API
 ```
 
-## 🧱 Tecnologías
+Rutas (`src/App.jsx`, React Router 7): `/` pública; `/admin/dashboard`,
+`/admin/analytics` y `/admin/settings` para el panel; `/dashboard` y
+cualquier ruta desconocida redirigen.
 
-- **Core:** React 19, React Router 7
-- **Bundler:** Vite 8
-- **Estilos:** CSS plano (variables globales, Flexbox/Grid, glassmorphism
-  con `backdrop-filter`), sin framework de estilos
-- **Gráficos:** Recharts
-- **Iconos:** lucide-react
-- **Testing:** Vitest + React Testing Library + jsdom
-- **Linting:** oxlint
+## 🚀 Inicio rápido
 
-## ✅ Tests
+| Requisito | Versión |
+|---|---|
+| Node.js | 22 (el que usa el CI) |
+| npm | el que incluye Node |
 
-```bash
-npm test
-```
+1. Instala dependencias:
+   ```bash
+   npm ci
+   ```
+2. Levanta el servidor de desarrollo (http://localhost:5173):
+   ```bash
+   npm run dev
+   ```
+3. Envía un mensaje en `/` y míralo en `/admin/dashboard` **en el mismo navegador**.
 
-Cubre la lógica de validación pura (`src/utils/validation.js`) y el flujo
-del wizard de contacto (`src/pages/Home.jsx`): renderizado del paso 1,
-bloqueo de avance con campos inválidos, y navegación entre pasos con datos
-válidos.
+Otros comandos: `npm run build` (genera `dist/`), `npm run preview`, `npm run lint` (oxlint), `npm test`.
 
-## 📁 Estructura del proyecto
+<details>
+<summary>Estructura de carpetas</summary>
 
 ```text
 src/
-├── assets/         # Recursos estáticos
-├── components/     # Componentes reutilizables (Layout, Toast, Modal)
-├── layouts/        # AdminLayout (sidebar + topbar del panel de admin)
-├── pages/          # Vistas rutables (Home, Dashboard, Analytics, Settings)
-├── services/       # mockApi.js: simula un backend con localStorage
-├── utils/          # validation.js: validaciones puras y testeables
-├── __tests__/      # Tests con Vitest
-├── App.jsx         # Rutas (React Router): "/" pública, "/admin/*" interna
-└── index.css       # Variables de diseño y estilos globales
+├── components/   Layout, Modal, Toast
+├── layouts/      AdminLayout (sidebar + topbar)
+├── pages/        Home, Dashboard, Analytics, Settings
+├── services/     mockApi.js (simula backend con localStorage)
+├── utils/        validation.js
+├── __tests__/    Form, Modal, Validation
+└── App.jsx       rutas
 ```
 
-## 📖 Manual adicional
+Documentación adicional: [Manual de uso](./MANUAL_DE_USO.md).
 
-Para el detalle de cómo interactúa cada rol (usuario final y
-administrador) con la interfaz, consulta el
-[Manual de Uso](./MANUAL_DE_USO.md).
+</details>
+
+## 🧪 Pruebas
+
+```bash
+npm test
+```
+
+31 tests con Vitest + React Testing Library + jsdom, repartidos en 3
+archivos: validación, wizard del formulario y modal. El CI
+(`.github/workflows/ci.yml`) ejecuta lint, tests y build.
+
+## 🔒 Seguridad
+
+- La validación existe solo en el cliente; no hay servidor que la repita.
+- `/admin/*` **no tiene autenticación**: cualquiera con la URL lo ve.
+
+## 🚧 Lo que todavía no existe
+
+- Backend, base de datos y persistencia compartida entre dispositivos.
+- Autenticación o roles para el panel de administración.
+- Envío real de correos o notificaciones (el switch de Settings es solo visual).
+- Persistencia del tema claro/oscuro.
+- `npm run lint` termina con 3 avisos (import sin usar, `catch` sin usar y una referencia temprana en `Dashboard.jsx`), sin errores.
 
 ## 📄 Licencia
 
-Este repositorio no incluye un archivo `LICENSE`. Si vas a reutilizarlo o
-distribuirlo, agrega uno o confirma los términos con quien lo mantiene.
+Sin licencia definida: todos los derechos reservados por defecto.
+
+<div align="center"><sub>Hecho por Luiss2080 · React + Vite</sub></div>
